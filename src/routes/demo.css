@@ -1,0 +1,13 @@
+/**
+ *
+ *  Created by youli on 2017/8/31
+ *
+ */
+.oper {
+  margin-bottom: 20px;
+  background: #fbfbfb;
+  padding: 10px;
+}
+.oper .button {
+  margin-left: 8px;
+}

@@ -1,0 +1,8 @@
+/**
+ *
+ *  Created by youli on 2017/8/31
+ *
+ */
+.wapper .i:last-child {
+  display: none;
+}
