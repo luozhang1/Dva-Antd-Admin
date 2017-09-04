@@ -6,8 +6,8 @@
 
 import React from 'react';
 import {connect} from 'dva';
-import {Table, Pagination, Select, Anchor} from 'antd';
-import {reload} from "../../utils/search";
+import {Table, Pagination,Spin} from 'antd';
+import {searchFetch} from '../../action/search';
 import * as system from '../../systemConstans';
 
 
@@ -19,24 +19,25 @@ import * as system from '../../systemConstans';
  hasOtherSearch：是否组合搜索
  searchData：搜索条件
  searchResult：搜索结果
-*/
+ */
 
-function SearchResult({
-                        table = {},
-                        pageName = Symbol.for('common'),
-                        hasOtherSearch = true,
-                        searchData = new Map(),
-                        searchResult = new Map(),
-                        dispatch
-                      }) {
+const SearchResult=({
+                      table = {},
+                      pageName = Symbol.for('common'),
+                      hasOtherSearch = true,
+                      searchData = {},
+                      searchResult ={},
+                      isloading,
+                      dispatch
+                    })=> {
 
   const fetchTable = (data) => {
 
       if (hasOtherSearch) {
-        data = {...searchData.get(pageName), ...data};
+        data = {...searchData, ...data};
       }
 
-      reload(pageName, data);
+      dispatch(searchFetch(pageName, data));
 
     },
     // 页码改变的回调，参数是改变后的页码及每页条数
@@ -50,8 +51,7 @@ function SearchResult({
       field,
       order,
     })),
-    currentResult = searchResult.get(pageName),
-    {items = [], totalCount = 0, pageStart = 1} = currentResult || {},
+    {items = [], totalCount = 0, currentPage = 1} = searchResult || {},
     {columns = []} = table;
 
   let width = 0;
@@ -60,7 +60,7 @@ function SearchResult({
   ))
 
   return (
-    <div>
+    <Spin spinning={isloading}>
       <Table {...table}
              dataSource={items}
              onChange={handlerTableChange}
@@ -70,22 +70,17 @@ function SearchResult({
       <Pagination
         className="ant-table-pagination"
         total={totalCount}
-        current={pageStart}
+        current={currentPage}
         pageSize={system.PAGE_SIZE}
         onChange={handlerPageChange}
       />
-
-    </div>
+    </Spin>
   )
 }
 
-function mapStateToProps({search}) {
-  return {
-    ...search
-  };
-}
-
-const SearchTable = connect(mapStateToProps)(SearchResult);
+const SearchTable = connect(({search}) =>({
+  ...search
+}))(SearchResult);
 
 export {
   SearchTable,

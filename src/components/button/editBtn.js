@@ -3,8 +3,6 @@
  *  Created by youli on 2017/9/1
  *
  */
-
-
 import React from 'react';
 import {connect} from 'dva';
 import {createItem, getValue} from '../../utils/input';
@@ -155,13 +153,9 @@ class EditFormInModal extends React.Component {
   }
 };
 
-function mapStateToProps({editFormInModal}) {
-  return {
-    ...editFormInModal
-  };
-}
-
-const EditBtnInModal = connect(mapStateToProps)(Form.create()(EditFormInModal));
+const EditBtnInModal = connect(({editFormInModal})=>({
+  ...editFormInModal
+}))(Form.create()(EditFormInModal));
 
 export {
   EditBtnInModal,

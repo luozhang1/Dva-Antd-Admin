@@ -18,30 +18,22 @@ class MainLayout extends React.Component {
     const menus = JSON.parse(getStorage(storageKey.menu)),
       {currentNav} = this.props;
 
-    if (menus && currentNav && currentNav.indexOf('.') > -1) {
-      let navStr = currentNav.split('.'),
-        one = menus.filter((item) => (item.name == navStr[0] ? item : '')),
-        two = one[0].items.filter((item) => (item.name == currentNav ? item : ''));
+    let one,two;
 
-      this.state = {
-        menus,
-        oneSelectNav: one[0],
-        twoSelectNav: two[0],
-      }
-
+    if (currentNav && currentNav.indexOf('.') > -1) {
+      let navStr = currentNav.split('.');
+      one = menus.filter((item) => (item.name == navStr[0] ? item : ''));
+      one=one[0];
+      two = one.items.filter((item) => (item.name == currentNav ? item : ''));
+      two=two[0];
     }
-    else {
-      this.state = {
-        menus: [],
-        oneSelectNav: [],
-        twoSelectNav: [],
-      }
 
+    this.state = {
+      menus:menus || [],
+      oneSelectNav:one || [],
+      twoSelectNav:two || [],
     }
-  }
 
-
-  componentDidMount() {
   }
 
   handlerOneNavClick = ({key}) => {
@@ -80,7 +72,7 @@ class MainLayout extends React.Component {
 
     const {menus} = this.state;
 
-    if (!isLogin() || menus.length == 0) {
+    if (!isLogin()) {
 
       const {dispatch} = this.props;
 
@@ -92,7 +84,6 @@ class MainLayout extends React.Component {
         <div></div>
       );
     }
-
     const {Sider, Content} = Layout,
       {children} = this.props,
       {twoSelectNav, oneSelectNav} = this.state,
@@ -143,5 +134,4 @@ class MainLayout extends React.Component {
   }
 
 }
-
 export default connect(({layoutMain}) => ({...layoutMain}))(MainLayout);

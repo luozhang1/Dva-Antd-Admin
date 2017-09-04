@@ -3,11 +3,17 @@
  *  Created by youli on 2017/8/31
  *
  */
-.oper {
+
+html, body, :global(#root) {
+  height: 100%;
+}
+
+:global(.spp-oper-row) {
   margin-bottom: 20px;
   background: #fbfbfb;
   padding: 10px;
 }
-.oper .button {
+
+:global(.spp-oper-row button) {
   margin-left: 8px;
 }

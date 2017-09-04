@@ -10,7 +10,7 @@ import createLoading from 'dva-loading';
 import {createLogger} from 'redux-logger';
 import {combineReducers} from 'redux-immutable';
 import dialog from './utils/dialog';
-import './index.css';
+import './common.css';
 
 // 1. Initialize
 const app = dva({
@@ -29,7 +29,6 @@ app.use(createLoading());
 
 // 3. Model
 app.model(require('./models/components/search/search'));
-app.model(require('./models/routes/demoPage'));
 
 // 4. Router
 app.router(require('./router'));

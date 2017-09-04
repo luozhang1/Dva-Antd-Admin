@@ -14,7 +14,7 @@ import {requestApi} from '../utils/reuqestConfig';
 import {setStorage, storageKey} from '../utils/storage';
 import styles from './login.css';
 
-function LoginPage({form, dispatch}) {
+const LoginPage=({form, dispatch}) =>{
   const handleSubmit = (e) => {
       e.preventDefault();
 
@@ -37,7 +37,7 @@ function LoginPage({form, dispatch}) {
 
                 setStorage(storageKey.menu, data.menus[0].items);
                 dispatch(routerRedux.push({
-                  pathname: '/demo',
+                  pathname: '/',
                 }));
 
               })
@@ -48,7 +48,6 @@ function LoginPage({form, dispatch}) {
 
     },
     {getFieldDecorator} = form;
-
 
   return (
     <Row className={styles.form}>

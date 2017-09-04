@@ -10,11 +10,11 @@ import {systemError} from './dialog';
 import {getUrl} from './reuqestConfig';
 import {getStorage, storageKey} from './storage';
 
-function parseJSON(response) {
+const parseJSON=(response) =>{
   return response.json();
-}
+},
 
-function checkStatus(response) {
+ checkStatus=(response) =>{
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
@@ -22,7 +22,7 @@ function checkStatus(response) {
   const error = new Error(response.statusText);
   error.response = response;
   throw error;
-}
+},
 
 /**
  * Requests a URL, returning a promise.
@@ -31,7 +31,7 @@ function checkStatus(response) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-function request(url, options) {
+ request=(url, options) =>{
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)
@@ -40,15 +40,15 @@ function request(url, options) {
       systemError(e.message);
       throw new Error('http error');
     });
-}
+},
 
-function httpGet(requestApi, data) {
+ httpGet=(requestApi, data) =>{
   let requestUrl = getUrl(requestApi);
 
   return request(requestUrl);
-}
+},
 
-function httPost(requestApi, data) {
+ httPost=(requestApi, data) =>{
 
   let requestUrl = getUrl(requestApi);
 
@@ -63,7 +63,7 @@ function httPost(requestApi, data) {
 
   return request(requestUrl, opt);
 
-}
+};
 
 export {
   request,

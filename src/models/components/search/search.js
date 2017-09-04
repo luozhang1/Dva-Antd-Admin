@@ -4,40 +4,39 @@
  *
  */
 
-import {fetchPage} from '../../../utils/search';
+import {fetchPage} from '../../../services/search';
 
 export default {
   namespace: 'search',
   state: {
     searchData: new Map(),
     searchResult: new Map(),
+    isloading:false,
     action: ''
   },
   reducers: {
     setSearch(state, {payload}) {
 
-      const {data, pageName} = payload,
-        {searchData} = state;
-
-      searchData.set(pageName, data);
+      const {data, pageName} = payload;
 
       return {
         ...state,
-        searchData,
+        searchData:data,
+        isloading:true,
         action: `${(pageName).toString()}-search`
       };
 
     },
     setResult(state, {payload}) {
 
-      const {data, pageName} = payload,
-        {searchResult} = state;
+      const {data, pageName,currentPage} = payload;
 
-      searchResult.set(pageName, data);
+      data.currentPage=currentPage;
 
       return {
         ...state,
-        searchResult,
+        searchResult:data,
+        isloading:false,
         action: `${(pageName.toString())}-result`
       };
 
@@ -48,9 +47,9 @@ export default {
 
       const a = yield put({'type': 'setSearch', payload});
 
-      const {data, pageName} = yield call(fetchPage, payload);
+      const {data, pageName,currentPage} = yield call(fetchPage, payload);
 
-      yield put({'type': 'setResult', 'payload': {data, pageName}});
+      yield put({'type': 'setResult', 'payload': {data, pageName,currentPage}});
 
     },
   },

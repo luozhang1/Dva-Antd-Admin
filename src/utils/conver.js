@@ -1,44 +1,44 @@
 // Map 转 对象
 import {request} from "./request";
 
-function mapToObj(strMap) {
+const mapToObj= (strMap) =>{
   let obj = Object.create(null);
   for (let [k, v] of strMap) {
     obj[k] = v;
   }
   return obj;
-}
+},
 
 // 对象 转 Map
-function objToMap(obj) {
+ objToMap=(obj) =>{
   let strMap = new Map();
   for (let k of Object.keys(obj)) {
     strMap.set(k, obj[k]);
   }
   return strMap;
-}
+},
 
 // Map 转 Json
-function mapToJson(strMap) {
+ mapToJson=(strMap) =>{
   return JSON.stringify(mapToObj(strMap));
-}
+},
 
 // Json 转 Map
-function jsonToMap(jsonStr) {
+ jsonToMap=(jsonStr) =>{
   return objToMap(JSON.parse(jsonStr));
-}
+},
 
 // Map 转 url参数
-function mapToUrlParame(map) {
+ mapToUrlParame=(map) =>{
   let result = '';
   for (let [key, value] of map) {
     result += `${key}=${value}&`;
   }
   return result.substr(0, result.length - 1);
-}
+},
 
 // Map 拷贝
-function extend(defaultOpt, opts) {
+ extend=(defaultOpt, opts) =>{
   let opt = new Map([...opts]);
 
   for (let [key, value] of defaultOpt) {
@@ -48,10 +48,10 @@ function extend(defaultOpt, opts) {
   }
 
   return opt
-}
+},
 
 // object 转 url参数
-function objToUrlParame(data) {
+ objToUrlParame=(data) =>{
   let result = '';
   if (!data) {
     return result;
@@ -65,10 +65,10 @@ function objToUrlParame(data) {
   }
 
   return result;
-}
+},
 
 // object 转 FormData
-function objToFormData(data) {
+ objToFormData=(data) =>{
   let result = new FormData();
 
   if (!data) {
@@ -80,7 +80,8 @@ function objToFormData(data) {
   }
 
   return result;
-}
+};
+
 export default {
   extend,
   mapToJson,
