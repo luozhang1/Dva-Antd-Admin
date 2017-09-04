@@ -67,6 +67,20 @@ function objToUrlParame(data) {
   return result;
 }
 
+// object 转 FormData
+function objToFormData(data) {
+  let result = new FormData();
+
+  if (!data) {
+    return result;
+  }
+
+  for (let item of Object.keys(data)) {
+   result.append(item,data[item]);
+  }
+
+  return result;
+}
 export default {
   extend,
   mapToJson,
@@ -75,4 +89,5 @@ export default {
   jsonToMap,
   mapToUrlParame,
   objToUrlParame,
+  objToFormData,
 };

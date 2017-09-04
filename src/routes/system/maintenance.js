@@ -1,23 +1,20 @@
 /**
- *
- *  Created by youli on 2017/8/31
- *
+ * Created by Administrator on 2017/9/2.
  */
-
 import React from 'react';
 import {connect} from 'dva';
-import styles from './demo.css';
+import styles from '../demo.css';
 import {Row, Col, Button, Tag, Modal, Form, Input, Radio} from 'antd';
-import MainLayout from '../components/layout/main';
-import {SearchCondition} from '../components/search/conditions';
-import {SearchTable} from '../components/search/resultTable';
-import {TblOper} from '../components/button/tblOper';
-import {reload} from "../utils/search";
-import {EditBtnInModal} from '../components/button/editBtn';
-import {requestApi, getUrl} from "../utils/reuqestConfig";
-import {warning} from '../utils/dialog'
+import MainLayout from '../../components/layout/main';
+import {SearchCondition} from '../../components/search/conditions';
+import {SearchTable} from '../../components/search/resultTable';
+import {TblOper} from '../../components/button/tblOper';
+import {reload} from "../../utils/search";
+import {EditBtnInModal} from '../../components/button/editBtn';
+import {requestApi, getUrl} from "../../utils/reuqestConfig";
+import {warning} from '../../utils/dialog'
 
-class DemoPage extends React.Component {
+class Maintenance extends React.Component {
 
   handlerTbblEdit = (item) => {
 
@@ -44,11 +41,11 @@ class DemoPage extends React.Component {
     super(props);
 
     const child = [
-        {id: 'title', span: '6', label: '文本框', type: 'text', status: ''},
-        {id: 'name', span: '6', label: '文本框', type: 'text', status: ''},
-        {id: 'content', span: '6', label: '文本框', type: 'text', status: ''},
-        {id: 'datetime', span: '6', label: '文本框', type: 'text', status: ''},
-      ];
+      {id: 'title', span: '6', label: '文本框', type: 'text', status: ''},
+      {id: 'name', span: '6', label: '文本框', type: 'text', status: ''},
+      {id: 'content', span: '6', label: '文本框', type: 'text', status: ''},
+      {id: 'datetime', span: '6', label: '文本框', type: 'text', status: ''},
+    ];
 
     this.state = {
       searchFields: child,
@@ -108,13 +105,13 @@ class DemoPage extends React.Component {
         );
       };
     return (
-      <MainLayout>
+      <MainLayout currentNav="System.Maintenance">
         <SearchCondition
           conditionFields={searchFields}
           pageName={requestApi.index}/>
         <Row className={styles.oper}>
           <Col span={24} style={{textAlign: 'right'}}>
-            <AddBtn className={styles.button}>新增</AddBtn>
+            <AddBtn className={styles.button}>新增Maintenance</AddBtn>
             <Button type="danger"
                     className={styles.button}
                     onClick={this.handlerDelete}>批量删除</Button>
@@ -124,7 +121,6 @@ class DemoPage extends React.Component {
           table={{
             columns,
             rowKey:(item)=>{
-              console.log(item.key,item.id);
               return (item.key);
             },
           }}
@@ -140,4 +136,4 @@ function mapStateToProps({demoPage}) {
   };
 }
 
-export default connect(mapStateToProps)(DemoPage);
+export default connect(mapStateToProps)(Maintenance);

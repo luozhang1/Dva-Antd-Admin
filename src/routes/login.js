@@ -6,36 +6,87 @@
 
 import React from 'react';
 import {connect} from 'dva';
-import styles from './demo.css';
-import {Row, Col, Button, Tag, Modal, Form, Input, Radio} from 'antd';
-import MainLayout from '../components/layout/main';
-import {SearchCondition} from '../components/search/conditions';
-import {SearchTable} from '../components/search/resultTable';
-import {TblOper} from '../components/button/tblOper';
-import {reload} from "../utils/search";
-import {EditBtnInModal} from '../components/button/editBtn';
-import {requestApi, getUrl} from "../utils/reuqestConfig";
+import {routerRedux} from 'dva/router';
 import {warning} from '../utils/dialog'
+import {Form, Icon, Input, Button, Row, Col} from 'antd';
+import {httPost} from '../utils/request';
+import {requestApi} from '../utils/reuqestConfig';
+import {setStorage, storageKey} from '../utils/storage';
+import styles from './login.css';
 
-class loginPage extends React.Component {
+function LoginPage({form, dispatch}) {
+  const handleSubmit = (e) => {
+      e.preventDefault();
 
-  constructor(props) {
-    super(props);
-  }
+      const {getFieldsValue, validateFields} = form;
 
-  componentDidMount() {
-  }
+      validateFields((err, values) => {
+        if (err) {
+          return;
+        }
 
-  render() {
+        const data = getFieldsValue();
 
-  }
+        httPost((requestApi.login), data)
+          .then((data) => {
+
+            setStorage(storageKey.token, data);
+
+            httPost(requestApi.getAuth)
+              .then((data) => {
+
+                setStorage(storageKey.menu, data.menus[0].items);
+                dispatch(routerRedux.push({
+                  pathname: '/demo',
+                }));
+
+              })
+
+          })
+
+      });
+
+    },
+    {getFieldDecorator} = form;
+
+
+  return (
+    <Row className={styles.form}>
+      <Col>
+        <Form onSubmit={handleSubmit} className="login-form">
+          <h2 className={styles.logo}><span>万众云付</span></h2>
+          <Form.Item hasFeedback>
+            {getFieldDecorator('usernameOrEmailAddress', {
+              rules: [
+                {required: true, message: '用户名不能为空'},
+              ]
+            })(
+              <Input prefix={<Icon type="user" style={{fontSize: 13}}/>}
+                     placeholder="请输入用户名"/>
+            )}
+          </Form.Item>
+          <Form.Item hasFeedback>
+            {getFieldDecorator('password', {
+              rules: [
+                {required: true, message: '密码不能为空'}
+              ]
+            })(
+              <Input prefix={<Icon type="lock" style={{fontSize: 13}}/>}
+                     type="password"
+                     placeholder="请输入密码"/>
+            )}
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className={styles.btn}>
+              登录
+            </Button>
+          </Form.Item>
+        </Form>
+
+      </Col>
+    </Row>
+  );
 
 }
 
-function mapStateToProps({login}) {
-  return {
-    ...login
-  };
-}
-
-export default connect(mapStateToProps)(loginPage);
+export default connect()(Form.create()(LoginPage));

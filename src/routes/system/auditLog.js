@@ -1,23 +1,20 @@
 /**
- *
- *  Created by youli on 2017/8/31
- *
+ * Created by Administrator on 2017/9/2.
  */
-
 import React from 'react';
 import {connect} from 'dva';
-import styles from './demo.css';
+import styles from '../demo.css';
 import {Row, Col, Button, Tag, Modal, Form, Input, Radio} from 'antd';
-import MainLayout from '../components/layout/main';
-import {SearchCondition} from '../components/search/conditions';
-import {SearchTable} from '../components/search/resultTable';
-import {TblOper} from '../components/button/tblOper';
-import {reload} from "../utils/search";
-import {EditBtnInModal} from '../components/button/editBtn';
-import {requestApi, getUrl} from "../utils/reuqestConfig";
-import {warning} from '../utils/dialog'
+import MainLayout from '../../components/layout/main';
+import {SearchCondition} from '../../components/search/conditions';
+import {SearchTable} from '../../components/search/resultTable';
+import {TblOper} from '../../components/button/tblOper';
+import {reload} from "../../utils/search";
+import {EditBtnInModal} from '../../components/button/editBtn';
+import {requestApi, getUrl} from "../../utils/reuqestConfig";
+import {warning} from '../../utils/dialog'
 
-class DemoPage extends React.Component {
+class AuditLog extends React.Component {
 
   handlerTbblEdit = (item) => {
 
@@ -44,11 +41,15 @@ class DemoPage extends React.Component {
     super(props);
 
     const child = [
-        {id: 'title', span: '6', label: '文本框', type: 'text', status: ''},
-        {id: 'name', span: '6', label: '文本框', type: 'text', status: ''},
-        {id: 'content', span: '6', label: '文本框', type: 'text', status: ''},
-        {id: 'datetime', span: '6', label: '文本框', type: 'text', status: ''},
-      ];
+      {id: 'title', span: '6', label: '日志状态', type: 'select',data:[
+        {key:'0',value:'全部'},
+        {key:'1',value:'成功'},
+        {key:'2',value:'错误'},
+      ], status: ''},
+      {id: 'name', span: '6', label: '用户名称', type: 'text', status: ''},
+      {id: 'content', span: '6', label: '服务器名称', type: 'text', status: ''},
+      {id: 'datetime', span: '6', label: '操作名称', type: 'text', status: ''},
+    ];
 
     this.state = {
       searchFields: child,
@@ -58,18 +59,17 @@ class DemoPage extends React.Component {
 
   componentDidMount() {
     const {dispatch} = this.props;
-    dispatch(reload(requestApi.index, {}));
+    dispatch(reload(requestApi.auditLog, {}));
   }
 
   render() {
     const {searchFields} = this.state,
       columns = [
-        {title: '标题', dataIndex: 'title', width: 200, sorter: true},
+        {title: '时间', dataIndex: 'executionTime', width: 200, sorter: true},
         {title: '名称', dataIndex: 'name', width: 200},
         {title: '时间', dataIndex: 'datetime', width: 200},
         {
           title: '操作',
-          fixed: 'right',
           width: 100,
           render: (item) => (
 
@@ -108,36 +108,34 @@ class DemoPage extends React.Component {
         );
       };
     return (
-      <MainLayout>
+      <MainLayout currentNav="System.AuditLog">
+
         <SearchCondition
           conditionFields={searchFields}
-          pageName={requestApi.index}/>
+          pageName={requestApi.auditLog}/>
+
         <Row className={styles.oper}>
           <Col span={24} style={{textAlign: 'right'}}>
-            <AddBtn className={styles.button}>新增</AddBtn>
+            <AddBtn className={styles.button}>新增audit</AddBtn>
             <Button type="danger"
                     className={styles.button}
                     onClick={this.handlerDelete}>批量删除</Button>
           </Col>
         </Row>
+
         <SearchTable
           table={{
             columns,
             rowKey:(item)=>{
-              console.log(item.key,item.id);
-              return (item.key);
+              return (item.userId);
             },
           }}
-          pageName={requestApi.index}/>
+          pageName={requestApi.auditLog}/>
+
       </MainLayout>
     )
   }
 }
 
-function mapStateToProps({demoPage}) {
-  return {
-    ...demoPage
-  };
-}
 
-export default connect(mapStateToProps)(DemoPage);
+export default connect()(AuditLog);

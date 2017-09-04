@@ -5,8 +5,10 @@
  */
 
 import fetch from 'dva/fetch';
-import {objToUrlParame} from './conver';
+import {objToFormData} from './conver';
 import {systemError} from './dialog';
+import {getUrl} from './reuqestConfig';
+import {getStorage, storageKey} from './storage';
 
 function parseJSON(response) {
   return response.json();
@@ -33,28 +35,33 @@ function request(url, options) {
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)
-    .then(data => ({data}))
+    .then(data => (data.result))
     .catch((e) => {
       systemError(e.message);
+      throw new Error('http error');
     });
 }
 
-function httpGet(url, data) {
+function httpGet(requestApi, data) {
+  let requestUrl = getUrl(requestApi);
 
-  let parame = objToUrlParame(data),
-    requestUrl = `${url}${parame ? `?${parame}` : ''}`;
   return request(requestUrl);
-
 }
 
-function httPost(url, data) {
-  var opt = {
-    method: 'Post',
-    mode: 'cors',
-    body: objToUrlParame(data),
-  };
+function httPost(requestApi, data) {
 
-  return request(url, opt);
+  let requestUrl = getUrl(requestApi);
+
+  const opt = {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${getStorage(storageKey.token)}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }
+
+  return request(requestUrl, opt);
 
 }
 

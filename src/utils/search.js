@@ -4,7 +4,7 @@
  *
  */
 
-import {request} from './request';
+import {httPost} from './request';
 import {getUrl} from "./reuqestConfig";
 import {objToUrlParame} from './conver';
 import * as system from '../systemConstans';
@@ -26,17 +26,19 @@ const
 
   },
   fetchPage = ({pageName, data}) => {
-    const url = getUrl(pageName),
+    const url = (pageName),
       defaultOpt = {
-        'pageSize': system.PAGE_SIZE,
-        'pageStart': 1,
+        'skipCount': 0,
+        'maxResultCount': system.PAGE_SIZE,
+        'startDate':'2017-09-02',
+        'endDate':'2017-09-02',
       },
       parame = {...defaultOpt, ...data};
 
-    let strParame = objToUrlParame(parame);
-
-    return request(`${url}?${strParame}`)
-      .then((data = {}) => ({data: data.data, 'pageName': pageName}));
+    return httPost(pageName,parame)
+      .then((data = {}) => {
+      return {data: data, 'pageName': pageName}
+      });
   };
 
 export {
