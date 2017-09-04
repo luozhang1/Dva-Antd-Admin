@@ -5,7 +5,7 @@
  */
 
 import dva from 'dva';
-import {browserHistory} from 'dva/router';
+import {hashHistory } from 'dva/router';
 import createLoading from 'dva-loading';
 import {createLogger} from 'redux-logger';
 import {combineReducers} from 'redux-immutable';
@@ -14,7 +14,7 @@ import './common.css';
 
 // 1. Initialize
 const app = dva({
-  history: browserHistory,
+  history: hashHistory ,
   /*onAction: createLogger(),*/
   /*onError(e) {
     dialog.systemError(e.message);

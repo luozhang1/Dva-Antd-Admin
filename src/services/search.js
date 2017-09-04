@@ -26,8 +26,6 @@ const
       skipCount=(parame.pageStart-1)*parame.pageSize,
       maxResultCount=parame.pageSize;
 
-    console.log(data);
-
     parame={
       ...parame,
       skipCount,
