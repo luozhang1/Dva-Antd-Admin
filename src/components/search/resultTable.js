@@ -61,6 +61,7 @@ const SearchResult=({
 
   return (
     <Spin spinning={isloading}>
+
       <Table {...table}
              dataSource={items}
              onChange={handlerTableChange}
@@ -74,6 +75,7 @@ const SearchResult=({
         pageSize={system.PAGE_SIZE}
         onChange={handlerPageChange}
       />
+
     </Spin>
   )
 }

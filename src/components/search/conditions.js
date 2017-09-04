@@ -58,13 +58,14 @@ const conditions=({
             <Col span={item.span} key={item.id}>
               <Form.Item>
                 {getFieldDecorator(`${item.id}`, {
-                  initialValue: getValue(searchData, `${item.id}`),
+                  initialValue:item.defaultValue || getValue(searchData, `${item.id}`),
                 })(
-                  createItem(item)
+                  createItem(item,item.config)
                 )}
               </Form.Item>
             </Col>
-          ))
+            )
+          )
         }
       </Row>
 

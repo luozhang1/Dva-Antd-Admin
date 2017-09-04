@@ -5,65 +5,68 @@
  */
 
 import fetch from 'dva/fetch';
-import {objToFormData} from './conver';
+import {objToFormData,objToUrlParame} from './conver';
 import {systemError} from './dialog';
 import {getUrl} from './reuqestConfig';
 import {getStorage, storageKey} from './storage';
 
 const parseJSON=(response) =>{
-  return response.json();
-},
+    return response.json();
+  },
 
- checkStatus=(response) =>{
-  if (response.status >= 200 && response.status < 300) {
-    return response;
-  }
+  checkStatus=(response) =>{
+    if (response.status >= 200 && response.status < 300) {
+      return response;
+    }
 
-  const error = new Error(response.statusText);
-  error.response = response;
-  throw error;
-},
+    const error = new Error(response.statusText);
+    error.response = response;
+    throw error;
+  },
 
-/**
- * Requests a URL, returning a promise.
- *
- * @param  {string} url       The URL we want to request
- * @param  {object} [options] The options we want to pass to "fetch"
- * @return {object}           An object containing either "data" or "err"
- */
- request=(url, options) =>{
-  return fetch(url, options)
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(data => (data.result))
-    .catch((e) => {
-      systemError(e.message);
-      throw new Error('http error');
-    });
-},
+  /**
+   * Requests a URL, returning a promise.
+   *
+   * @param  {string} url       The URL we want to request
+   * @param  {object} [options] The options we want to pass to "fetch"
+   * @return {object}           An object containing either "data" or "err"
+   */
+  request=(url, options) =>{
+    return fetch(url, options)
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(data => (data.result))
+      .catch((e) => {
+        systemError(e.message);
+        throw new Error('http error');
+      });
+  },
 
- httpGet=(requestApi, data) =>{
-  let requestUrl = getUrl(requestApi);
+  httpGet=(requestApi, data) =>{
+    let requestUrl = getUrl(requestApi),
+      parame=objToUrlParame(data);
 
-  return request(requestUrl);
-},
+    requestUrl+=(parame?`?${parame}`:``);
 
- httPost=(requestApi, data) =>{
+    return request(requestUrl);
+  },
 
-  let requestUrl = getUrl(requestApi);
+  httPost=(requestApi, data) =>{
 
-  const opt = {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${getStorage(storageKey.token)}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  }
+    let requestUrl = getUrl(requestApi);
 
-  return request(requestUrl, opt);
+    const opt = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${getStorage(storageKey.token)}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
 
-};
+    return request(requestUrl, opt);
+
+  };
 
 export {
   request,

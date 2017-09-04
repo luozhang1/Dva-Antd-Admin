@@ -15,30 +15,18 @@ import * as system from '../systemConstans';
  */
 
 const
-  reload = (pageName, data) => {
-    return {
-      'type': 'search/fetch',
-      payload: {
-        pageName,
-        data,
-      },
-    }
-
-  },
   fetchPage = ({pageName, data}) => {
     const url = (pageName),
       defaultOpt = {
         'pageStart':1,
         'pageSize':system.PAGE_SIZE,
-        /*'skipCount': 0,
-         'maxResultCount': system.PAGE_SIZE,*/
-        'startDate':'2017-09-02',
-        'endDate':'2017-09-02',
       };
 
     let parame = {...defaultOpt, ...data},
       skipCount=(parame.pageStart-1)*parame.pageSize,
       maxResultCount=parame.pageSize;
+
+    console.log(data);
 
     parame={
       ...parame,

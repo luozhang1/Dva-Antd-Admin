@@ -12,17 +12,53 @@ import {EditBtnInModal} from '../../components/button/editBtn';
 import {searchFetch} from '../../action/search';
 import {requestApi, getUrl} from "../../utils/reuqestConfig";
 import {warning} from '../../utils/dialog'
+import moment from 'moment';
 
 const AuditLog=({dispatch}) =>{
-  const searchFields = [
-      {id: 'title', span: '6', label: '日志状态', type: 'select',data:[
-        {key:'0',value:'全部'},
-        {key:'1',value:'成功'},
-        {key:'2',value:'错误'},
-      ], status: ''},
-      {id: 'name', span: '6', label: '用户名称', type: 'text', status: ''},
-      {id: 'content', span: '6', label: '服务器名称', type: 'text', status: ''},
-      {id: 'datetime', span: '6', label: '操作名称', type: 'text', status: ''},
+  const searchInitData={
+      userName:123,
+      'startDate_endDate':[moment().subtract(7,'days'),moment()],
+    },
+    searchFields = [
+      {
+        id: 'hasException',
+        span: '8',
+        type: 'select',
+        data:[
+          {id:'',value:'全部'},
+          {id:'true',value:'成功'},
+          {id:'false',value:'错误'},
+        ],
+        config:{
+          placeholder: '日志状态',
+        }
+      },
+      {
+        id: 'userName',
+        span: '8',
+        type: 'text',
+        defaultValue:searchInitData['userName'],
+        config:{
+          placeholder: '用户名称',
+        }
+      },
+      {
+        id: 'serviceName',
+        span: '8',
+        type: 'text',
+        config:{
+          placeholder:'服务器名称'
+        }
+      },
+      {
+        id: 'startDate_endDate',
+        span: '16',
+        type: 'rang',
+        defaultValue:searchInitData['startDate_endDate'],
+        config:{
+          placeholder:'服务器名称'
+        }
+      },
     ],
     columns = [
       {title: 'ID', dataIndex: 'id', width: 50},
@@ -84,7 +120,7 @@ const AuditLog=({dispatch}) =>{
       }
     };
 
-  dispatch(searchFetch(pageName));
+  dispatch(searchFetch(pageName,searchInitData));
 
   return (
     <MainLayout currentNav="System.AuditLog">

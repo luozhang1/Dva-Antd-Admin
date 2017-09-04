@@ -7,13 +7,13 @@
 import moment from 'moment';
 import {Form, Row, Col, Input, Button, Icon, DatePicker, Cascader, Select} from 'antd';
 
-const createItem = (data) => {
+const createItem = (data,config) => {
     let result = '';
     switch (data.type) {
       case 'rang':
         result = <DatePicker.RangePicker
-          ranges={{'今天': [moment(), moment()], '这个月': [moment(), moment().endOf('month')]}}
-          showTime format="YYYY/MM/DD HH:mm:ss"/>
+          showTime
+          ranges={{'今天': [moment(), moment()], '这个月': [moment(), moment().endOf('month')]}} />
         break;
       case 'cascader':
         result = <Cascader options={data.data} placeholder={data.label}/>
@@ -21,10 +21,11 @@ const createItem = (data) => {
       case 'select':
         result = <Select
           showSearch
-          placeholder={data.label}>
+          {...config}
+        >
           {
             data.data.map((item) => (
-              <Select.Option key={item.key}>{item.value}</Select.Option>
+              <Select.Option value={item.id} key={item.id}>{item.value}</Select.Option>
             ))
           }
         </Select>
@@ -42,7 +43,7 @@ const createItem = (data) => {
         </Select>
         break;
       default:
-        result = <Input placeholder={data.label}/>;
+        result = <Input {...config}/>;
         break;
     }
     return result;
