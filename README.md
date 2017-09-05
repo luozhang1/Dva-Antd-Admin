@@ -71,7 +71,7 @@
 ## Demo
 
 #### 效果图
-![Editor preferences pane](https://raw.githubusercontent.com/youli2013/dva-demo/master/demo.jpg)
+![Editor preferences pane](https://raw.githubusercontent.com/youli2013/Dva-Antd-Admin/master/demo.jpeg)
 
 #### 源码
 ```
