@@ -12,8 +12,9 @@ export default {
   // "theme": "./theme.config.js",
   proxy: {
     "/api": {
-      "target": "http://localhost:6240/",
+      "target": "http://localhost:3000/",
       "changeOrigin": true,
+      "pathRewrite": {"^/api": ""}
     }
   },
   /*autoprefixer: {

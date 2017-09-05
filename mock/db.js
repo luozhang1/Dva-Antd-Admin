@@ -3,12 +3,10 @@
  */
 var Mock = require('mockjs');
 
-const result = {
-  error: null,
-  result: '',
+const result =(result)=> ({
   success: true,
-  targetUrl: '',
-};
+  result:result,
+});
 
 module.exports = () => {
 
@@ -16,37 +14,109 @@ module.exports = () => {
     'items|5': [
       {
         'id|+1': 0,
-        'title': '@ctitle(5)',
-        'name': '@cname(3)',
-        'content': '@cparagraph(10,50)',
-        'datetime': '@datetime'
+        'methodName': '@ctitle(5)',
+        'serviceName':'@ctitle(5)',
+        'clientName':'@ctitle(5)',
+        'clientIpAddress':'@ctitle(5)',
+        'executionTime': '@datetime'
       }
     ],
     totalCount: 5,// 数据条数
-    pageStart: 1,// 当前的页面
   });
 
+  const getCurrentLoginAuthInfos={
+    success:true,
+    result:{
+      "menus": [
+        {
+          "name": "MainMenu",
+          "displayName": "Main menu",
+          "customData": null,
+          "items": [
+            {
+              "name": "Finace",
+              "icon": "icon-caiwuguanli",
+              "displayName": "财务管理",
+              "order": 0,
+              "url": "/finance",
+              "customData": null,
+              "target": null,
+              "items": [
+                {
+                  "name": "Finace.List",
+                  "icon": null,
+                  "displayName": "资金总览",
+                  "order": 0,
+                  "url": "/finance/index",
+                  "customData": null,
+                  "target": null,
+                  "items": []
+                }
+              ]
+            },
+            {
+              "name": "System",
+              "icon": "icon-setting",
+              "displayName": "系统管理",
+              "order": 0,
+              "url": "/system",
+              "customData": null,
+              "target": null,
+              "items": [
+                {
+                  "name": "System.Role",
+                  "icon": null,
+                  "displayName": "角色",
+                  "order": 0,
+                  "url": "/system/role",
+                  "customData": null,
+                  "target": null,
+                  "items": []
+                },
+                {
+                  "name": "System.User",
+                  "icon": null,
+                  "displayName": "用户",
+                  "order": 0,
+                  "url": "/system/user",
+                  "customData": null,
+                  "target": null,
+                  "items": []
+                },
+                {
+                  "name": "System.AuditLog",
+                  "icon": null,
+                  "displayName": "日志",
+                  "order": 0,
+                  "url": "/system/auditLog",
+                  "customData": null,
+                  "target": null,
+                  "items": []
+                }
+              ]
+            }
+          ]
+        },
+      ],
+      "user": {
+        "name": "admin",
+        "surname": "admin",
+        "userName": "admin",
+        "emailAddress": "admin@aspnetzero.com",
+        "profilePictureId": null,
+        "id": 1
+      }
+    },
+    },
+    account={
+    success:true,
+      result:'EmtbxIOsRFMsAxehTgWlzjzINcmFlzWqkKVfHrXcD6H_7YxlhTUlZSWJXrspI4fncxx',
+    };
+
   var data = {
-    login: {
-      error: null,
-      result: '',
-      success: true,
-      targetUrl: '',
-    },
-    log,
-    deletelog:{
-      error: null,
-      result: [],
-      success: true,
-      targetUrl: '',
-    },
-    viewlog:{
-      'id': 1,
-      'title': '标题',
-      'name': '名称',
-      'content': '内容',
-      'datetime': '2018-08-08'
-    }
+    account,
+    getCurrentLoginAuthInfos,
+    getAuditLogs:result(log),
   };
 
   return data;

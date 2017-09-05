@@ -14,9 +14,9 @@ const requestApi = {
   },
   requestUrl = {
 
-    [requestApi.auditLog]:'/api/services/app/auditLog/getAuditLogs',
+    [requestApi.auditLog]:'/api/getAuditLogs',
     [requestApi.login]:'/api/account',
-    [requestApi.getAuth]:'/api/services/app/session/getCurrentLoginAuthInfos'
+    [requestApi.getAuth]:'/api/getCurrentLoginAuthInfos'
   },
   getUrl = (item) => (requestUrl[item]);
 

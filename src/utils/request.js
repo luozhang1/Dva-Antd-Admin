@@ -53,7 +53,7 @@ const parseJSON=(response) =>{
 
   httPost=(requestApi, data) =>{
 
-    let requestUrl = getUrl(requestApi);
+    /*let requestUrl = getUrl(requestApi);
 
     const opt = {
       method: 'POST',
@@ -64,7 +64,10 @@ const parseJSON=(response) =>{
       body: JSON.stringify(data)
     }
 
-    return request(requestUrl, opt);
+    return request(requestUrl, opt);*/
+
+    // 测试使用，mock 数据只支持get请求
+    return httpGet(requestApi,data);
 
   };
 

@@ -20,7 +20,7 @@ class MainLayout extends React.Component {
 
     let one,two;
 
-    if (currentNav && currentNav.indexOf('.') > -1) {
+    if (menus && currentNav && currentNav.indexOf('.') > -1) {
       let navStr = currentNav.split('.');
       one = menus.filter((item) => (item.name == navStr[0] ? item : ''));
       one=one[0];
